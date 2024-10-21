@@ -5,7 +5,7 @@ export default function SideBar() {
         <aside className="hidden w-64 bg-gray-800 p-6 lg:block">
             <div className="mb-8 flex items-center">
                 <div
-                    className="flex items-center justify-center rounded-full text-xl faont-bold"
+                    className="flex items-center justify-center rounded-full text-xl font-bold"
                 >
                     <img
                         src="./assets/lws-logo-en.svg"
@@ -20,13 +20,14 @@ export default function SideBar() {
                 <ul className="space-y-4">
                     <li>
                         <a href="#" className="flex items-center"
-                        ><svg
-                            className="mr-3 h-5 w-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
                         >
+                            <svg
+                                className="mr-3 h-5 w-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
                                 <path
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
@@ -38,13 +39,14 @@ export default function SideBar() {
                     </li>
                     <li>
                         <a href="#" className="flex items-center"
-                        ><svg
-                            className="mr-3 h-5 w-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
                         >
+                            <svg
+                                className="mr-3 h-5 w-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
                                 <path
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
@@ -110,7 +112,8 @@ export default function SideBar() {
                     </li>
                     <li>
                         <a href="#" className="flex items-center"
-                        ><svg
+                        >
+                            <svg
                             className="mr-3 h-5 w-5"
                             fill="none"
                             stroke="currentColor"
