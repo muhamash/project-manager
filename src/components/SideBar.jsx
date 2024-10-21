@@ -5,7 +5,7 @@ export default function SideBar() {
         <aside className="hidden w-64 bg-gray-800 p-6 lg:block">
             <div className="mb-8 flex items-center">
                 <div
-                    className="flex items-center justify-center rounded-full text-xl font-bold"
+                    className="flex items-center justify-center rounded-full text-xl faont-bold"
                 >
                     <img
                         src="./assets/lws-logo-en.svg"
