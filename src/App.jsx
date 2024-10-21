@@ -1,12 +1,17 @@
-import './App.css'
+import './App.css';
+import SideBar from './components/SideBar';
+import TaskFather from './components/TaskFather';
 
 function App() {
 
   return (
-    <div className="bg-teal-600 text-white"> 
-      hello
-    </div>
-  )
+    <body className="bg-gray-900 text-white">
+      <div className="flex h-screen">
+        <SideBar />
+        <TaskFather/>
+      </div>
+    </body>
+  );
 }
 
 export default App
