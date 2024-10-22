@@ -4,13 +4,15 @@ import AddTask from './AddTask';
 
 export default function ProjectifyHeader() {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
-    const { addTask } = useTask
+    const { addTask } = useTask();
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
 
-    const handleAddTask = (category, task) => {
+    const handleAddTask = ( category, task ) =>
+    {
+        console.log( task, category );
         addTask(category, task); 
         setIsModalOpen(false);
     };

@@ -21,7 +21,7 @@ export default function TaskCard ( { task, categoryKey, handleDelete } )
         <div className="mb-4 rounded-lg bg-gray-800 p-4">
             <div className="flex justify-between">
                 <h4 className={ `mb-2 font-semibold ${colorFunction( categoryKey )}` }>
-                    { task.task || "default title" }
+                    { task.title || "default title" }
                 </h4>
                 <div className="flex gap-2">
                     {/* delete */ }
@@ -67,7 +67,7 @@ export default function TaskCard ( { task, categoryKey, handleDelete } )
                 </div>
             </div>
             <p className="mb-2 text-sm text-zinc-200">
-                { task.text || "default textdfg" }
+                { task.description || "default textdfg" }
             </p>
 
             <p className="mt-6 text-xs text-zinc-400">
