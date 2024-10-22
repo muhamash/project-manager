@@ -1,29 +1,33 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
+import useTask from '../context/useTask';
 
-export default function AddTask({ onClose, onAdd }) {
+export default function AddTask({ onClose }) {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         date: '',
-        category: 'todo',
+        category: '', 
     });
+    const { addTask } = useTask();
+    
 
-    const handleChange = (e) => {
+    const handleChange = ( e ) =>
+    {
         const { name, value } = e.target;
-        setFormData((prevData) => ({
+        setFormData( ( prevData ) => ( {
             ...prevData,
-            [name]: value,
-        }));
+            [ name ]: value,
+        } ) );
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = ( e ) =>
+    {
         e.preventDefault();
         const newTask = {
             ...formData,
-            date: new Date().toISOString(),
         };
-        onAdd( formData.category, newTask );
+        addTask( formData.category, newTask );
         onClose();
     };
 
@@ -31,7 +35,7 @@ export default function AddTask({ onClose, onAdd }) {
         <div className="w-[500px] min-w-[310px] rounded-lg bg-gray-800 shadow-xl backdrop-blur-md">
             <div className="p-6">
                 <h2 className="mb-6 text-2xl font-bold text-green-400">Create Task</h2>
-                <form onSubmit={ handleSubmit }>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label
                             htmlFor="title"
@@ -44,8 +48,8 @@ export default function AddTask({ onClose, onAdd }) {
                             id="title"
                             name="title"
                             required
-                            value={ formData.title }
-                            onChange={ handleChange }
+                            value={formData.title}
+                            onChange={handleChange}
                             className="w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white placeholder-gray-400 shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500"
                         />
                     </div>
@@ -57,11 +61,12 @@ export default function AddTask({ onClose, onAdd }) {
                             Description
                         </label>
                         <textarea
+                            required
                             id="description"
                             name="description"
                             rows="3"
-                            value={ formData.description }
-                            onChange={ handleChange }
+                            value={formData.description}
+                            onChange={handleChange}
                             className="w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white placeholder-gray-400 shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500"
                         ></textarea>
                     </div>
@@ -69,13 +74,16 @@ export default function AddTask({ onClose, onAdd }) {
                         <label
                             htmlFor="dueDate"
                             className="mb-1 block text-sm font-medium text-gray-300"
-                        >Due Date</label>
+                        >
+                            Due Date
+                        </label>
                         <input
+                            required
                             type="date"
                             id="date"
                             name="date"
-                            value={ formData.description }
-                            onChange={ handleChange }
+                            value={formData.date}
+                            onChange={handleChange}
                             className="w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500"
                         />
                     </div>
@@ -87,12 +95,14 @@ export default function AddTask({ onClose, onAdd }) {
                             Category
                         </label>
                         <select
+                            required
                             id="category"
                             name="category"
                             value={ formData.category }
                             onChange={ handleChange }
                             className="w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500"
                         >
+                            <option value="">Select a category</option>
                             <option value="To-Do">To-Do</option>
                             <option value="On Progress">On Progress</option>
                             <option value="Done">Done</option>
@@ -102,7 +112,7 @@ export default function AddTask({ onClose, onAdd }) {
 
                     <div className="flex justify-end space-x-3">
                         <button
-                            onClick={ onClose }
+                            onClick={onClose}
                             type="button"
                             className="rounded-md border border-gray-600 px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800"
                         >

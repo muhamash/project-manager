@@ -18,6 +18,25 @@ export const taskReducer = ( state, action ) =>
                 ),
             };
         }
+        case 'EDIT_TASK': {
+            const { category, taskId, updatedTask } = action.payload;
+            const updatedCategory = state.tasks
+                .find( ( t ) => t[ category ] )[ category ]
+                .map( ( task ) =>
+                    task.id === taskId ? { ...task, ...updatedTask } : task
+                );
+
+            return {
+                ...state,
+                tasks: state.tasks.map( ( t ) =>
+                    t[ category ] ? { ...t, [ category ]: updatedCategory } : t
+                ),
+                filteredTasks: state.filteredTasks.map( ( t ) =>
+                    t[ category ] ? { ...t, [ category ]: updatedCategory } : t
+                ),
+            };
+        }
+
 
         case 'SORT_BY_DATE': {
             const { category, direction } = action.payload;

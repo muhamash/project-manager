@@ -1,21 +1,19 @@
 import React from 'react';
-import useTask from '../context/useTask';
 import AddTask from './AddTask';
 
 export default function ProjectifyHeader() {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
-    const { addTask } = useTask();
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
 
-    const handleAddTask = ( category, task ) =>
-    {
-        console.log( task, category );
-        addTask(category, task); 
-        setIsModalOpen(false);
-    };
+    // const handleAddTask = ( category, task ) =>
+    // {
+    //     console.log( task, category );
+    //     addTask(category, task); 
+    //     setIsModalOpen(false);
+    // };
 
     return (
         <>
@@ -49,7 +47,7 @@ export default function ProjectifyHeader() {
             </div>
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm px-5">
-                    <AddTask onClose={handleCloseModal} onAdd={handleAddTask} />
+                    <AddTask onClose={handleCloseModal}/>
                 </div>
             )}
         </>

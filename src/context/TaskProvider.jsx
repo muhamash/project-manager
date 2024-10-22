@@ -39,10 +39,18 @@ export const TaskProvider = ( { children } ) =>
         dispatch( { type: 'ADD_TASK', payload: { category, task: newTask } } );
     };
 
-    const updateTask = ( category, updatedTask ) =>
+    const editTask = ( category, taskId, updatedTask ) =>
     {
-        dispatch( { type: 'UPDATE_TASK', payload: { category, task: updatedTask } } );
+        dispatch( {
+            type: 'EDIT_TASK',
+            payload: {
+                category,
+                taskId, 
+                updatedTask,
+            },
+        } );
     };
+
 
     const deleteTask = ( category, taskId ) =>
     {
@@ -65,7 +73,7 @@ export const TaskProvider = ( { children } ) =>
                 tasks: tasksToDisplay,
                 searchTerm: state.searchTerm,
                 addTask,
-                updateTask,
+                editTask,
                 deleteTask,
                 sortTasksByDate,
                 filterTasks,

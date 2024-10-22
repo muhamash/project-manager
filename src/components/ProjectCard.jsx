@@ -7,7 +7,7 @@ import TaskHeader from "./TaskHeader";
 export default function ProjectCard ( { bgPropsData } )
 {
     const [ sortDirection, setSortDirection ] = useState( 'asc' );
-    const { sortTasksByDate, deleteTask } = useTask();
+    const { sortTasksByDate, deleteTask, editTask } = useTask();
     
     const taskCategoryKey = Object.keys(bgPropsData).find((key) => key !== "id");
     const tasks = bgPropsData[taskCategoryKey];
@@ -37,13 +37,18 @@ export default function ProjectCard ( { bgPropsData } )
     };
 
     return (
-        <div className={`rounded-lg ${bgFunction(bgPropsData.id)} p-4`}>
-            <TaskHeader handleSort={()=> handleSort()} items={tasks.length} title={taskCategoryKey} />
-            <div>
-                {tasks?.map((task) => (
-                    <TaskCard handleDelete={()=> deleteTask(taskCategoryKey, task.id)}  categoryKey={taskCategoryKey} task={task} key={task.id} />
-                ))}
+        <>
+            <div className={ `rounded-lg ${bgFunction( bgPropsData.id )} p-4` }>
+                <TaskHeader handleSort={ handleSort } items={ tasks.length } title={ taskCategoryKey } />
+                <div>
+                    { tasks?.map( ( task ) => (
+                        <TaskCard handleEdit={ () => editTask( task.id, taskCategoryKey, task ) } handleDelete={ () => deleteTask( taskCategoryKey, task.id ) } categoryKey={ taskCategoryKey } task={ task } key={ task.id } />
+                    ) ) }
+                </div>
             </div>
-        </div>
+            {
+                
+            }
+        </>
     );
 }

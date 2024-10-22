@@ -1,7 +1,7 @@
  /* eslint-disable react/prop-types */
 // import React from 'react'
 
-export default function TaskCard ( { task, categoryKey, handleDelete } )
+export default function TaskCard ( { task, categoryKey, handleDelete, handleEdit } )
 {
     // console.log( task );
 
@@ -50,7 +50,7 @@ export default function TaskCard ( { task, categoryKey, handleDelete } )
 
                     {/* edit */ }
                     <svg
-                        
+                        onClick={handleEdit}
                         className="h-4 w-4 cursor-pointer text-zinc-300"
                         fill="none"
                         stroke="currentColor"
