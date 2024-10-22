@@ -23,7 +23,7 @@ export default function TaskFather ()
                     }
                     {
                         tasks?.length === 0 && (
-                            <p className="text-rose-600 text-2xl font-semibold">Task List is empty</p>
+                            <p className="text-rose-600 text-2xl font-semibold">Task List is empty!</p>
                         )
                     }
                 </div>
