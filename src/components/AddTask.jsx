@@ -1,22 +1,50 @@
-// import React from 'react';
+/* eslint-disable react/prop-types */
+import { useState } from 'react';
 
-export default function AddTask() {
+export default function AddTask({ onClose, onAdd }) {
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        category: 'todo',
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const newTask = {
+            ...formData,
+            tags: formData.tags.split(',').map((tag) => tag.trim()),
+            date: new Date().toISOString(),
+        };
+        onAdd(formData.category, newTask);
+    };
+
     return (
-        <div className="w-full max-w-md rounded-lg bg-gray-800 shadow-xl">
+        <div className="w-[500px] min-w-[310px] rounded-lg bg-gray-800 shadow-xl backdrop-blur-md">
             <div className="p-6">
                 <h2 className="mb-6 text-2xl font-bold text-green-400">Create Task</h2>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label
-                            htmlFor="taskName"
-                            className="mb-1 block text-sm font-medium text-gray-300">
+                            htmlFor="title"
+                            className="mb-1 block text-sm font-medium text-gray-300"
+                        >
                             Task Name
                         </label>
                         <input
                             type="text"
-                            id="taskName"
-                            name="taskName"
+                            id="title"
+                            name="title"
                             required
+                            value={formData.title}
+                            onChange={handleChange}
                             className="w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white placeholder-gray-400 shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500"
                         />
                     </div>
@@ -24,46 +52,41 @@ export default function AddTask() {
                         <label
                             htmlFor="description"
                             className="mb-1 block text-sm font-medium text-gray-300"
-                        >Description</label>
+                        >
+                            Description
+                        </label>
                         <textarea
                             id="description"
                             name="description"
                             rows="3"
+                            value={formData.description}
+                            onChange={handleChange}
                             className="w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white placeholder-gray-400 shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500"
                         ></textarea>
                     </div>
                     <div className="mb-4">
                         <label
-                            htmlFor="dueDate"
-                            className="mb-1 block text-sm font-medium text-gray-300"
-                        >Due Date</label>
-                        <input
-                            type="date"
-                            id="dueDate"
-                            name="dueDate"
-                            className="w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500"
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <label
                             htmlFor="category"
                             className="mb-1 block text-sm font-medium text-gray-300"
-                        >Category</label>
+                        >
+                            Category
+                        </label>
                         <select
                             id="category"
                             name="category"
+                            value={formData.category}
+                            onChange={handleChange}
                             className="w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500"
                         >
                             <option value="todo">To-Do</option>
-                            <option value="inprogress">On Progress</option>
+                            <option value="inprogress">In Progress</option>
                             <option value="done">Done</option>
-                            <option value="revised">Revised</option>
                         </select>
                     </div>
 
                     <div className="flex justify-end space-x-3">
                         <button
+                            onClick={onClose}
                             type="button"
                             className="rounded-md border border-gray-600 px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800"
                         >
@@ -80,4 +103,4 @@ export default function AddTask() {
             </div>
         </div>
     );
-};
+}

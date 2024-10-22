@@ -1,35 +1,55 @@
-// import React from 'react';
+import React from 'react';
+import useTask from '../context/useTask';
+import AddTask from './AddTask';
 
 export default function ProjectifyHeader() {
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const { addTask } = useTask
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleAddTask = (category, task) => {
+        addTask(category, task); 
+        setIsModalOpen(false);
+    };
+
     return (
-        <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-2xl font-bold">Projectify</h2>
-            <div className="flex space-x-2">
-                <button
-                    className="flex items-center rounded-md bg-gray-700 px-4 py-2 text-white"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="mr-2"
+        <>
+            <div className="mb-6 flex items-center justify-between">
+                <h2 className="text-2xl font-bold">Projectify</h2>
+                <div className="flex space-x-2">
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="flex items-center rounded-md bg-gray-700 px-4 py-2 text-white"
                     >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path
-                            d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"
-                        />
-                        <path d="M15 12h-6" />
-                        <path d="M12 9v6" />
-                    </svg>
-                    Add
-                </button>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="mr-2"
+                        >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" />
+                            <path d="M15 12h-6" />
+                            <path d="M12 9v6" />
+                        </svg>
+                        Add
+                    </button>
+                </div>
             </div>
-        </div>
+            {isModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm px-5">
+                    <AddTask onClose={handleCloseModal} onAdd={handleAddTask} />
+                </div>
+            )}
+        </>
     );
 }

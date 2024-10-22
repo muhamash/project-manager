@@ -38,7 +38,7 @@ export default function ProjectCard ( { bgPropsData } )
 
     return (
         <div className={`rounded-lg ${bgFunction(bgPropsData.id)} p-4`}>
-            <TaskHeader handleSort={handleSort} items={tasks.length} title={taskCategoryKey} />
+            <TaskHeader handleSort={()=> handleSort()} items={tasks.length} title={taskCategoryKey} />
             <div>
                 {tasks?.map((task) => (
                     <TaskCard handleDelete={()=> deleteTask(taskCategoryKey, task.id)}  categoryKey={taskCategoryKey} task={task} key={task.id} />
