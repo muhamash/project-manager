@@ -1,5 +1,7 @@
 // import React from 'react';
 
+import SearchBox from "./SearchBox";
+
 export default function TopBar() {
     return (
         <header className="flex items-center justify-between bg-gray-800 p-4">
@@ -19,13 +21,8 @@ export default function TopBar() {
                     ></path>
                 </svg>
             </button>
-            <div className="mx-4 flex-1">
-                <input
-                    type="text"
-                    placeholder="Search here"
-                    className="w-full max-w-xl rounded-full bg-gray-700 px-4 py-2 text-white focus:outline-none"
-                />
-            </div>
+            {/* search */ }
+            <SearchBox />
             <div className="flex items-center">
                 <button className="relative mr-4">
                     <svg

@@ -1,16 +1,19 @@
 import './App.css';
 import SideBar from './components/SideBar';
 import TaskFather from './components/TaskFather';
+import { TaskProvider } from './context/TaskProvider';
 
 function App() {
 
   return (
-    <body className="bg-gray-900 text-white">
+    <div className="bg-gray-900 text-white">
       <div className="flex h-screen">
-        <SideBar />
-        <TaskFather/>
+        <TaskProvider>
+          <SideBar />
+          <TaskFather />
+        </TaskProvider>
       </div>
-    </body>
+    </div>
   );
 }
 

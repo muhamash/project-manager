@@ -1,15 +1,30 @@
-/* eslint-disable react/no-unescaped-entities */
+ /* eslint-disable react/prop-types */
 // import React from 'react'
 
-export default function TaskCard() {
+export default function TaskCard ( { task, categoryKey } )
+{
+    // console.log( task );
+
+    const colorFunction = ( id ) =>
+    {
+        switch ( id )
+        {
+            case "To-Do": return "text-indigo-600";
+            case "On Progress": return "text-yellow-600";
+            case "Done": return "text-teal-600";
+            case "Revise": return "text-rose-600";
+            default: return "text-white";
+        }
+    };
+
     return (
         <div className="mb-4 rounded-lg bg-gray-800 p-4">
             <div className="flex justify-between">
-                <h4 className="mb-2 font-semibold text-rose-500">
-                    Content Writer
+                <h4 className={`mb-2 font-semibold ${colorFunction(categoryKey)}`}>
+                    { task.task || "default title" }
                 </h4>
                 <div className="flex gap-2">
-                    {/* edit */}
+                    {/* edit */ }
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
@@ -31,7 +46,7 @@ export default function TaskCard() {
                         />
                         <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
                     </svg>
-                    {/* delete */}
+                    {/* delete */ }
                     <svg
                         className="h-4 w-4 cursor-pointer text-zinc-300"
                         fill="none"
@@ -49,10 +64,12 @@ export default function TaskCard() {
                 </div>
             </div>
             <p className="mb-2 text-sm text-zinc-200">
-                Make Promotional Ads for Instagram fasto's
+                { task.text || "default textdfg" }
             </p>
 
-            <p className="mt-6 text-xs text-zinc-400">February 20, 2024</p>
+            <p className="mt-6 text-xs text-zinc-400">
+                { new Date( task.date ).toLocaleDateString( 'en-GB', { day: 'numeric', month: 'short', year: 'numeric' } ) }
+            </p>
         </div>
     );
 }
