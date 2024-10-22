@@ -1,16 +1,21 @@
+ 
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 import useTask from '../context/useTask';
 
-export default function AddTask({ onClose }) {
-    const [formData, setFormData] = useState({
+export default function AddTask({ onClose, task, categoryKey }) {
+    const [ formData, setFormData ] = useState( task ? {
+        title: task.title,
+        description: task.description,
+        date: task.date,
+        category: categoryKey,
+    } : {
         title: '',
         description: '',
         date: '',
-        category: '', 
-    });
-    const { addTask } = useTask();
-    
+        category: '',
+    } );
+    const { addTask, editTask } = useTask();
 
     const handleChange = ( e ) =>
     {
@@ -26,10 +31,20 @@ export default function AddTask({ onClose }) {
         e.preventDefault();
         const newTask = {
             ...formData,
+            category: formData.category,
         };
-        addTask( formData.category, newTask );
+
+        if ( task )
+        {
+            editTask( formData.category, task.id, newTask );
+            console.log( formData, task, task.id, newTask, formData.category );
+        } else
+        {
+            addTask( formData.category, newTask );
+        }
         onClose();
     };
+
 
     return (
         <div className="w-[500px] min-w-[310px] rounded-lg bg-gray-800 shadow-xl backdrop-blur-md">
@@ -72,10 +87,10 @@ export default function AddTask({ onClose }) {
                     </div>
                     <div className="mb-4">
                         <label
-                            htmlFor="dueDate"
+                            htmlFor="date"
                             className="mb-1 block text-sm font-medium text-gray-300"
                         >
-                            Due Date
+                            Date
                         </label>
                         <input
                             required
@@ -122,7 +137,7 @@ export default function AddTask({ onClose }) {
                             type="submit"
                             className="rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800"
                         >
-                            Create Task
+                            {task ? "Update" : "Create Task"}
                         </button>
                     </div>
                 </form>

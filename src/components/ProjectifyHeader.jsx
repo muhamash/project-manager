@@ -8,13 +8,6 @@ export default function ProjectifyHeader() {
         setIsModalOpen(false);
     };
 
-    // const handleAddTask = ( category, task ) =>
-    // {
-    //     console.log( task, category );
-    //     addTask(category, task); 
-    //     setIsModalOpen(false);
-    // };
-
     return (
         <>
             <div className="mb-6 flex items-center justify-between">
