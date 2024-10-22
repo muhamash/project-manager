@@ -4,38 +4,16 @@ export const taskReducer = ( state, action ) =>
     {
         case 'ADD_TASK': {
             const { category, task } = action.payload;
-            const updatedCategory = [ ...state.tasks.find( t => t[ category ] )[ category ], task ];
+            const updatedCategory = [
+                ...state.tasks.find( ( t ) => t[ category ] )[ category ],
+                task,
+            ];
             return {
                 ...state,
                 tasks: state.tasks.map( ( t ) =>
                     t[ category ] ? { ...t, [ category ]: updatedCategory } : t
                 ),
-            };
-        }
-
-        case 'UPDATE_TASK': {
-            const { category, task } = action.payload;
-            const updatedCategory = state.tasks
-                .find( t => t[ category ] )[ category ]
-                .map( ( t ) => ( t.id === task.id ? task : t ) );
-
-            return {
-                ...state,
-                tasks: state.tasks.map( ( t ) =>
-                    t[ category ] ? { ...t, [ category ]: updatedCategory } : t
-                ),
-            };
-        }
-
-        case 'DELETE_TASK': {
-            const { category, taskId } = action.payload;
-            const updatedCategory = state.tasks
-                .find( t => t[ category ] )[ category ]
-                .filter( ( t ) => t.id !== taskId );
-
-            return {
-                ...state,
-                tasks: state.tasks.map( ( t ) =>
+                filteredTasks: state.filteredTasks.map( ( t ) =>
                     t[ category ] ? { ...t, [ category ]: updatedCategory } : t
                 ),
             };
@@ -44,32 +22,29 @@ export const taskReducer = ( state, action ) =>
         case 'SORT_BY_DATE': {
             const { category, direction } = action.payload;
 
-            const updatedTasks = state.filteredTasks.map( ( categoryObj ) =>
-            {
-                if ( categoryObj[ category ] )
+            const sortedTasks = ( tasks ) =>
+                tasks.map( ( categoryObj ) =>
                 {
-                    const sortedCategory = [ ...categoryObj[ category ] ].sort( ( a, b ) =>
-                        direction === 'asc'
-                            ? new Date( a.date ) - new Date( b.date )
-                            : new Date( b.date ) - new Date( a.date )
-                    );
+                    if ( categoryObj[ category ] )
+                    {
+                        const sortedCategory = [ ...categoryObj[ category ] ].sort( ( a, b ) =>
+                            direction === 'asc'
+                                ? new Date( a.date ) - new Date( b.date )
+                                : new Date( b.date ) - new Date( a.date )
+                        );
 
-                    return { ...categoryObj, [ category ]: sortedCategory };
-                }
-                // console.log(state, state.filteredTasks)
-                return categoryObj;
-            } );
+                        return { ...categoryObj, [ category ]: sortedCategory };
+                    }
+                    return categoryObj;
+                } );
 
-
-            console.log(updatedTasks)
             return {
                 ...state,
-                tasks: updatedTasks[category],
+                tasks: sortedTasks( state.tasks ),
+                filteredTasks: sortedTasks( state.filteredTasks ),
             };
-        };
+        }
 
-
-            
         case 'SEARCH_TASKS': {
             const { query } = action.payload;
 
@@ -77,39 +52,54 @@ export const taskReducer = ( state, action ) =>
             {
                 return {
                     ...state,
-                    filteredTasks: state.tasks, 
+                    filteredTasks: state.tasks,
                     searchTerm: query,
                 };
             }
 
-            const filteredTasks = state.tasks.map( category =>
-            {
-                const categoryName = Object.keys( category ).find( key => key !== 'id' );
+            const filteredTasks = state.tasks
+                .map( ( category ) =>
+                {
+                    const categoryName = Object.keys( category ).find( ( key ) => key !== 'id' );
 
-                const filteredCategory = category[ categoryName ].filter( task =>
-                    Object.values( task ).some( value =>
-                        String( value ).toLowerCase().includes( query.toLowerCase() )
-                    )
-                );
+                    const filteredCategory = category[ categoryName ].filter( ( task ) =>
+                        Object.values( task ).some( ( value ) =>
+                            String( value ).toLowerCase().includes( query.toLowerCase() )
+                        )
+                    );
 
-                return {
-                    id: category.id,
-                    [ categoryName ]: filteredCategory,
-                };
-            } ).filter( category =>
+                    return {
+                        id: category.id,
+                        [ categoryName ]: filteredCategory,
+                    };
+                } )
+                .filter( ( category ) =>
+                {
+                    const categoryName = Object.keys( category ).find( ( key ) => key !== 'id' );
+                    return category[ categoryName ].length > 0;
+                } );
+
+            const sortedFilteredTasks = filteredTasks.map( ( categoryObj ) =>
             {
-                const categoryName = Object.keys( category ).find( key => key !== 'id' );
-                return category[ categoryName ].length > 0;
+                const categoryName = Object.keys( categoryObj ).find( ( key ) => key !== 'id' );
+                if ( state.sortDirection )
+                {
+                    categoryObj[ categoryName ].sort( ( a, b ) =>
+                        state.sortDirection === 'asc'
+                            ? new Date( a.date ) - new Date( b.date )
+                            : new Date( b.date ) - new Date( a.date )
+                    );
+                }
+                return categoryObj;
             } );
 
             return {
                 ...state,
-                filteredTasks,
+                filteredTasks: sortedFilteredTasks,
                 searchTerm: query,
             };
-        };
+        }
 
-            
         default:
             return state;
     }
