@@ -1,7 +1,7 @@
  /* eslint-disable react/prop-types */
 // import React from 'react'
 
-export default function TaskCard ( { task, categoryKey } )
+export default function TaskCard ( { task, categoryKey, handleDelete } )
 {
     // console.log( task );
 
@@ -20,12 +20,13 @@ export default function TaskCard ( { task, categoryKey } )
     return (
         <div className="mb-4 rounded-lg bg-gray-800 p-4">
             <div className="flex justify-between">
-                <h4 className={`mb-2 font-semibold ${colorFunction(categoryKey)}`}>
+                <h4 className={ `mb-2 font-semibold ${colorFunction( categoryKey )}` }>
                     { task.task || "default title" }
                 </h4>
                 <div className="flex gap-2">
-                    {/* edit */ }
+                    {/* delete */ }
                     <svg
+                        onClick={ handleDelete }
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
                         height="24"
@@ -46,8 +47,10 @@ export default function TaskCard ( { task, categoryKey } )
                         />
                         <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
                     </svg>
-                    {/* delete */ }
+
+                    {/* edit */ }
                     <svg
+                        
                         className="h-4 w-4 cursor-pointer text-zinc-300"
                         fill="none"
                         stroke="currentColor"

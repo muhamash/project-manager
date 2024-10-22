@@ -98,7 +98,26 @@ export const taskReducer = ( state, action ) =>
                 filteredTasks: sortedFilteredTasks,
                 searchTerm: query,
             };
-        }
+        };
+            
+        case 'DELETE_TASK': {
+            const { category, taskId } = action.payload;
+
+            const updatedCategory = state.tasks
+                .find( ( t ) => t[ category ] )[ category ]
+                .filter( ( task ) => task.id !== taskId );
+
+            return {
+                ...state,
+                tasks: state.tasks.map( ( t ) =>
+                    t[ category ] ? { ...t, [ category ]: updatedCategory } : t
+                ),
+                filteredTasks: state.filteredTasks.map( ( t ) =>
+                    t[ category ] ? { ...t, [ category ]: updatedCategory } : t
+                ),
+            };
+        };
+            
 
         default:
             return state;
