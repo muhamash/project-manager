@@ -26,64 +26,77 @@ export const taskReducer = ( state, action ) =>
                     t[ category ] ? { ...t, [ category ]: updatedCategory } : t
                 ),
             };
-        };
-            
+        }
+
         case 'EDIT_TASK': {
             const { category, taskId, updatedTask } = action.payload;
+            const isCategoryChanged = updatedTask.category && updatedTask.category !== category;
 
-            console.log( `Attempting to edit task in category: ${category}` );
-
-            // Create a variable to hold the original category of the task being edited
-            let originalCategory = '';
-    
-            // Remove the task from its original category
-            const updatedTasks = state.tasks.map( ( t ) =>
+            if ( isCategoryChanged )
             {
-                // Find the task in the current category
-                const taskList = Object.values( t ).flat().find( ( task ) => task.id === taskId );
-                if ( taskList )
+                const originalCategory = category;
+                const newCategory = updatedTask.category;
+
+                // Remove task from original category
+                const updatedTasks = state.tasks.map( ( catObj ) =>
                 {
-                    // Identify the original category of the task being edited
-                    originalCategory = Object.keys( t ).find( ( key ) => t[ key ].some( ( task ) => task.id === taskId ) );
+                    if ( catObj[ originalCategory ] )
+                    {
+                        const updatedCategoryTasks = catObj[ originalCategory ].filter( ( task ) => task.id !== taskId );
+                        return { ...catObj, [ originalCategory ]: updatedCategoryTasks };
+                    }
+                    return catObj;
+                } );
+
+                // Check if new category exists
+                const foundNewCategory = updatedTasks.find( ( catObj ) => catObj[ newCategory ] );
+
+                if ( !foundNewCategory )
+                {
+                    console.error( `Category '${newCategory}' not found in state.` );
+                    return state; // If the new category doesn't exist, return the original state
                 }
 
-                // If the original category is found, filter out the task from that category
-                if ( originalCategory && t[ originalCategory ] )
+                // Add the updated task to the new category
+                const updatedNewCategory = updatedTasks.map( ( catObj ) =>
                 {
-                    const filteredTasks = t[ originalCategory ].filter( task => task.id !== taskId );
-                    return { ...t, [ originalCategory ]: filteredTasks };
-                }
+                    if ( catObj[ newCategory ] )
+                    {
+                        return {
+                            ...catObj,
+                            [ newCategory ]: [ ...catObj[ newCategory ], { ...updatedTask, id: taskId } ]
+                        };
+                    }
+                    return catObj;
+                } );
 
-                return t; // Return the category unchanged if no task is found
-            } );
-
-            // Check if the new category exists
-            const foundNewCategory = updatedTasks.find( ( t ) => t[ category ] );
-
-            if ( !foundNewCategory )
+                // Update the task state
+                return {
+                    ...state,
+                    tasks: updatedNewCategory,
+                    filteredTasks: updatedNewCategory,
+                };
+            } else
             {
-                console.error( `Category '${category}' not found in state.` );
-                return state; // Return the original state if the new category doesn't exist
+                // No category change, just update the task in place
+                const updatedTasks = state.tasks.map( ( catObj ) =>
+                {
+                    if ( catObj[ category ] )
+                    {
+                        const updatedCategoryTasks = catObj[ category ].map( ( task ) =>
+                            task.id === taskId ? { ...task, ...updatedTask } : task
+                        );
+                        return { ...catObj, [ category ]: updatedCategoryTasks };
+                    }
+                    return catObj;
+                } );
+
+                return {
+                    ...state,
+                    tasks: updatedTasks,
+                    filteredTasks: updatedTasks,
+                };
             }
-
-            // Generate a new ID for the updated task (if needed)
-            const newTaskId = Date.now(); // Use a better ID generation strategy as required
-
-            // Add the updated task to the new category with the new ID
-            const updatedCategoryTasks = [
-                ...( foundNewCategory[ category ] || [] ),
-                { ...updatedTask, id: newTaskId } // Assign the new ID for the updated task
-            ];
-
-            return {
-                ...state,
-                tasks: updatedTasks.map( ( t ) =>
-                    t[ category ] ? { ...t, [ category ]: updatedCategoryTasks } : t
-                ),
-                filteredTasks: updatedTasks.map( ( t ) =>
-                    t[ category ] ? { ...t, [ category ]: updatedCategoryTasks } : t
-                ),
-            };
         };
 
 
@@ -112,9 +125,7 @@ export const taskReducer = ( state, action ) =>
                 tasks: sortedTasks( state.tasks ),
                 filteredTasks: sortedTasks( tasksToSort ),
             };
-        };
-
-
+        }
 
         case 'SEARCH_TASKS': {
             const { query } = action.payload;
@@ -153,9 +164,8 @@ export const taskReducer = ( state, action ) =>
                 filteredTasks,
                 searchTerm: query,
             };
-        };
+        }
 
-            
         case 'DELETE_TASK': {
             const { category, taskId } = action.payload;
 
@@ -172,8 +182,7 @@ export const taskReducer = ( state, action ) =>
                     t[ category ] ? { ...t, [ category ]: updatedCategory } : t
                 ),
             };
-        };
-            
+        }
 
         default:
             return state;

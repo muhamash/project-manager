@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createContext, useReducer, useState } from 'react';
+import { createContext, useReducer } from 'react';
 import taskData from '../db/database.js';
 import { taskReducer } from '../reducer/taskReducer.js';
 
@@ -15,21 +15,9 @@ export const TaskProvider = ( { children } ) =>
 {
     const [ state, dispatch ] = useReducer( taskReducer, {
         ...initialState,
-        filteredTasks: initialState.tasks
+        filteredTasks: initialState.tasks,
     } );
-    const [ currentTask, setCurrentTask ] = useState( null );
-    
-    // const [ searchQuery, setSearchQuery ] = useState( '' );
-
-    // const filteredTasks = tasks.filter( task =>
-    // {
-    //     return task.title.toLowerCase().includes( searchQuery.toLowerCase() );
-    // } );
-
-    // const filterTasks = ( query ) =>
-    // {
-    //     setSearchQuery( query );
-    // };
+    // const [ currentTask, setCurrentTask ] = useState( null );
 
     const tasksToDisplay = state.filteredTasks;
 
@@ -43,14 +31,9 @@ export const TaskProvider = ( { children } ) =>
     {
         dispatch( {
             type: 'EDIT_TASK',
-            payload: {
-                category,
-                taskId, 
-                updatedTask,
-            },
+            payload: { category, taskId, updatedTask },
         } );
     };
-
 
     const deleteTask = ( category, taskId ) =>
     {
@@ -71,14 +54,13 @@ export const TaskProvider = ( { children } ) =>
         <TaskContext.Provider
             value={ {
                 tasks: tasksToDisplay,
-                searchTerm: state.searchTerm,
                 addTask,
                 editTask,
                 deleteTask,
                 sortTasksByDate,
                 filterTasks,
-                currentTask,
-                setCurrentTask,
+                // currentTask,
+                // setCurrentTask,
             } }
         >
             { children }

@@ -7,7 +7,8 @@ export default function TaskCard ( { task, categoryKey } )
 {
     // console.log( task, categoryKey );
     const [ isModalOpen, setIsModalOpen ] = React.useState( false );
-    const { deleteTask } = useTask();
+    const { deleteTask} = useTask();
+
     // const handleCloseModal = () =>
     // {
     //     setIsModalOpen( false );

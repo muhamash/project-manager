@@ -9,12 +9,13 @@ export default function ProjectCard ( { bgPropsData } )
     const [ sortDirection, setSortDirection ] = useState( 'asc' );
     const { sortTasksByDate } = useTask();
     
-    const taskCategoryKey = Object.keys(bgPropsData).find((key) => key !== "id");
-    const tasks = bgPropsData[taskCategoryKey];
-    // console.log(bgPropsData[taskCategoryKey]);
+    const taskCategoryKey = Object.keys( bgPropsData ).find( ( key ) => key !== "id" );
+    const tasks = bgPropsData[ taskCategoryKey ] || [];
 
-    const bgFunction = (id) => {
-        switch (id) {
+    const bgFunction = ( id ) =>
+    {
+        switch ( id )
+        {
             case 1: return "bg-indigo-600";
             case 2: return "bg-yellow-600";
             case 3: return "bg-teal-600";
@@ -22,12 +23,6 @@ export default function ProjectCard ( { bgPropsData } )
             default: return "bg-white";
         }
     };
-
-    // const taskId = bgPropsData[taskCategoryKey]
-    // const handleDeleteTask = ( taskCategoryKey ) =>
-    // {
-    //     deleteTask(taskCategoryKey )
-    // }
 
     const handleSort = () =>
     {
@@ -37,18 +32,17 @@ export default function ProjectCard ( { bgPropsData } )
     };
 
     return (
-        <>
-            <div className={ `rounded-lg ${bgFunction( bgPropsData.id )} p-4` }>
-                <TaskHeader handleSort={ handleSort } items={ tasks.length } title={ taskCategoryKey } />
-                <div>
-                    { tasks?.map( ( task ) => (
+        <div className={ `rounded-lg ${bgFunction( bgPropsData.id )} p-4` }>
+            <TaskHeader handleSort={ handleSort } items={ tasks.length } title={ taskCategoryKey } />
+            <div>
+                { tasks.length > 0 ? (
+                    tasks.map( ( task ) => (
                         <TaskCard categoryKey={ taskCategoryKey } task={ task } key={ task.id } />
-                    ) ) }
-                </div>
+                    ) )
+                ) : (
+                    <p className="text-yellow-500">No task remaining!</p>
+                ) }
             </div>
-            {
-                
-            }
-        </>
+        </div>
     );
-}
+};
