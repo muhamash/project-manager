@@ -1,3 +1,5 @@
+import { ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import SideBar from './components/SideBar';
 import TaskFather from './components/TaskFather';
@@ -13,6 +15,7 @@ function App() {
           <TaskFather />
         </TaskProvider>
       </div>
+      <ToastContainer />
     </div>
   );
 }

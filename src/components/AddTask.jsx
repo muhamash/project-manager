@@ -1,6 +1,7 @@
- 
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
+import { Bounce, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import useTask from '../context/useTask';
 
 export default function AddTask({ onClose, task, categoryKey }) {
@@ -32,6 +33,18 @@ export default function AddTask({ onClose, task, categoryKey }) {
         const newTask = { ...formData };
 
         task ? editTask( task.id, newTask ) : addTask( formData.category, newTask );
+
+        toast( `${task ? `Task updated!!` : `New task added!!`}`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+        } );
 
         onClose();
     };

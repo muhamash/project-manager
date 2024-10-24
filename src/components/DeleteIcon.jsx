@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
+import { Bounce, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import useTask from '../context/useTask';
 
 export default function DeleteIcon ({categoryKey, id})
@@ -7,7 +9,22 @@ export default function DeleteIcon ({categoryKey, id})
     const { deleteTask } = useTask();
     return (
         <svg
-            onClick={ () => deleteTask( categoryKey, id ) }
+            onClick={ () =>
+            {
+                deleteTask( categoryKey, id );
+                toast( `Task deleted!!`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                } );
+
+            } }
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
