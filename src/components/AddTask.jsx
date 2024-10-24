@@ -29,21 +29,13 @@ export default function AddTask({ onClose, task, categoryKey }) {
     const handleSubmit = ( e ) =>
     {
         e.preventDefault();
-        const newTask = {
-            ...formData,
-            category: formData.category,
-        };
+        const newTask = { ...formData };
 
-        if ( task )
-        {
-            editTask( formData.category, task.id, newTask );
-            console.log( formData, task, task.id, newTask, formData.category );
-        } else
-        {
-            addTask( formData.category, newTask );
-        }
+        task ? editTask( task.id, newTask ) : addTask( formData.category, newTask );
+
         onClose();
     };
+
 
 
     return (

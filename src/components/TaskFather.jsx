@@ -11,7 +11,7 @@ export default function TaskFather ()
     // console.log( tasks );
 
     return (
-        <main className="flex-1 overflow-y-auto overflow-x-hidden">
+        <main className="flex-1  overflow-y-auto w-full overflow-x-hidden">
             <TopBar />
             <div className="mx-auto max-w-7xl p-6">
                 <ProjectifyHeader />

@@ -1,13 +1,12 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
-import useTask from "../context/useTask";
+// import { useState } from "react";
 import TaskCard from "./TaskCard";
 import TaskHeader from "./TaskHeader";
 
 export default function ProjectCard ( { bgPropsData } )
 {
-    const [ sortDirection, setSortDirection ] = useState( 'asc' );
-    const { sortTasksByDate } = useTask();
+    // const [ sortDirection, setSortDirection ] = useState( 'asc' );
+    // const { sortTasksByDate } = useTask();
     
     const taskCategoryKey = Object.keys( bgPropsData ).find( ( key ) => key !== "id" );
     const tasks = bgPropsData[ taskCategoryKey ] || [];
@@ -24,16 +23,16 @@ export default function ProjectCard ( { bgPropsData } )
         }
     };
 
-    const handleSort = () =>
-    {
-        const newDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-        setSortDirection( newDirection );
-        sortTasksByDate( taskCategoryKey, newDirection );
-    };
+    // const handleSort = () =>
+    // {
+    //     const newDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+    //     setSortDirection( newDirection );
+    //     sortTasksByDate( taskCategoryKey, newDirection );
+    // };
 
     return (
         <div className={ `rounded-lg ${bgFunction( bgPropsData.id )} p-4` }>
-            <TaskHeader handleSort={ handleSort } items={ tasks.length } title={ taskCategoryKey } />
+            <TaskHeader  items={ tasks.length } title={ taskCategoryKey } />
             <div>
                 { tasks.length > 0 ? (
                     tasks.map( ( task ) => (

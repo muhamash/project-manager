@@ -3,7 +3,7 @@ import SearchBox from "./SearchBox";
 
 export default function TopBar() {
     return (
-        <header className="w-full flex items-center justify-between bg-gray-800 p-4">
+        <header className=" flex items-center justify-between bg-gray-800 p-4">
             <button className="lg:hidden">
                 <svg
                     className="h-6 w-6"

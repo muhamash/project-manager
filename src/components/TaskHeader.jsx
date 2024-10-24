@@ -1,16 +1,28 @@
 /* eslint-disable react/prop-types */
-export default function TaskHeader({ title, handleSort, items }) {
+import { useState } from "react";
+import useTask from '../context/useTask';
+
+export default function TaskHeader({ title, items }) {
     // const { tasks } = useTask(); 
-    // console.log(tasks[title], title)
+  // console.log(tasks[title], title)
+  const [ sortDirection, setSortDirection ] = useState( 'asc' );
+  const { sortTasksByDate } = useTask();
+
+  const handleSort = () =>
+  {
+    const newDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+    setSortDirection( newDirection );
+    sortTasksByDate( title, newDirection );
+  };
 
   return (
     <div className="mb-2 flex items-center justify-between">
       <h3 className="text-lg font-semibold">
-              { title } <span>({ items })</span>
+        { title } <span>({ items })</span>
       </h3>
-      {/* sort icon */}
+      {/* sort icon */ }
       <svg
-        onClick={handleSort}
+        onClick={ handleSort }
         xmlns="http://www.w3.org/2000/svg"
         width="18"
         height="18"
@@ -22,13 +34,26 @@ export default function TaskHeader({ title, handleSort, items }) {
         strokeLinejoin="round"
         className="icon icon-tabler icons-tabler-outline icon-tabler-sort-descending cursor-pointer"
       >
-        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path d="M4 6l9 0" />
-        <path d="M4 12l7 0" />
-        <path d="M4 18l7 0" />
-        <path d="M15 15l3 3l3 -3" />
-        <path d="M18 6l0 12" />
+        { sortDirection === 'asc' ? (
+          <>
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 6l9 0" />
+            <path d="M4 12l7 0" />
+            <path d="M4 18l7 0" />
+            <path d="M15 15l3 -3l3 3" />
+            <path d="M18 18l0 -12" />
+          </>
+        ) : (
+          <>
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 6l9 0" />
+            <path d="M4 12l7 0" />
+            <path d="M4 18l7 0" />
+            <path d="M15 15l3 3l3 -3" /> 
+            <path d="M18 6l0 12" />
+          </>
+        ) }
       </svg>
     </div>
   );
-}
+};

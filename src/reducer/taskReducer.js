@@ -30,75 +30,54 @@ export const taskReducer = ( state, action ) =>
 
         case 'EDIT_TASK': {
             const { category, taskId, updatedTask } = action.payload;
-            const isCategoryChanged = updatedTask.category && updatedTask.category !== category;
+            const { newCategory } = updatedTask;
 
-            if ( isCategoryChanged )
+            if ( newCategory && newCategory !== category )
             {
-                const originalCategory = category;
-                const newCategory = updatedTask.category;
+                const updatedOldCategory = state.tasks
+                    .find( ( t ) => t[ category ] )[ category ]
+                    .filter( ( task ) => task.id !== taskId );
 
-                // Remove task from original category
-                const updatedTasks = state.tasks.map( ( catObj ) =>
-                {
-                    if ( catObj[ originalCategory ] )
-                    {
-                        const updatedCategoryTasks = catObj[ originalCategory ].filter( ( task ) => task.id !== taskId );
-                        return { ...catObj, [ originalCategory ]: updatedCategoryTasks };
-                    }
-                    return catObj;
-                } );
+                const updatedNewCategory = [
+                    ...state.tasks.find( ( t ) => t[ newCategory ] )[ newCategory ],
+                    { ...updatedTask, id: Date.now().toString() }
+                ];
 
-                // Check if new category exists
-                const foundNewCategory = updatedTasks.find( ( catObj ) => catObj[ newCategory ] );
-
-                if ( !foundNewCategory )
-                {
-                    console.error( `Category '${newCategory}' not found in state.` );
-                    return state; // If the new category doesn't exist, return the original state
-                }
-
-                // Add the updated task to the new category
-                const updatedNewCategory = updatedTasks.map( ( catObj ) =>
-                {
-                    if ( catObj[ newCategory ] )
-                    {
-                        return {
-                            ...catObj,
-                            [ newCategory ]: [ ...catObj[ newCategory ], { ...updatedTask, id: taskId } ]
-                        };
-                    }
-                    return catObj;
-                } );
-
-                // Update the task state
                 return {
                     ...state,
-                    tasks: updatedNewCategory,
-                    filteredTasks: updatedNewCategory,
+                    tasks: state.tasks.map( ( t ) =>
+                        t[ category ]
+                            ? { ...t, [ category ]: updatedOldCategory }
+                            : t[ newCategory ]
+                                ? { ...t, [ newCategory ]: updatedNewCategory }
+                                : t
+                    ),
+                    filteredTasks: state.filteredTasks.map( ( t ) =>
+                        t[ category ]
+                            ? { ...t, [ category ]: updatedOldCategory }
+                            : t[ newCategory ]
+                                ? { ...t, [ newCategory ]: updatedNewCategory }
+                                : t
+                    ),
                 };
             } else
             {
-                // No category change, just update the task in place
-                const updatedTasks = state.tasks.map( ( catObj ) =>
+
+                const updatedTasks = state.tasks.map( ( t ) =>
                 {
-                    if ( catObj[ category ] )
+                    if ( t[ category ] )
                     {
-                        const updatedCategoryTasks = catObj[ category ].map( ( task ) =>
+                        const updatedCategoryTasks = t[ category ].map( ( task ) =>
                             task.id === taskId ? { ...task, ...updatedTask } : task
                         );
-                        return { ...catObj, [ category ]: updatedCategoryTasks };
+                        return { ...t, [ category ]: updatedCategoryTasks };
                     }
-                    return catObj;
+                    return t;
                 } );
 
-                return {
-                    ...state,
-                    tasks: updatedTasks,
-                    filteredTasks: updatedTasks,
-                };
+                return { ...state, tasks: updatedTasks, filteredTasks: updatedTasks };
             }
         };
-
 
         case 'SORT_BY_DATE': {
             const { category, direction } = action.payload;
@@ -169,20 +148,33 @@ export const taskReducer = ( state, action ) =>
         case 'DELETE_TASK': {
             const { category, taskId } = action.payload;
 
+            // Find the category and filter out the task to be deleted
             const updatedCategory = state.tasks
                 .find( ( t ) => t[ category ] )[ category ]
                 .filter( ( task ) => task.id !== taskId );
 
+            // Update both tasks and filteredTasks, taking into account the search term
             return {
                 ...state,
                 tasks: state.tasks.map( ( t ) =>
                     t[ category ] ? { ...t, [ category ]: updatedCategory } : t
                 ),
-                filteredTasks: state.filteredTasks.map( ( t ) =>
-                    t[ category ] ? { ...t, [ category ]: updatedCategory } : t
-                ),
+                filteredTasks: state.searchTerm
+                    ? state.filteredTasks.map( ( t ) =>
+                        t[ category ] ? { ...t, [ category ]: updatedCategory } : t
+                    )
+                    : state.tasks.map( ( t ) =>
+                        t[ category ] ? { ...t, [ category ]: updatedCategory } : t
+                    ),
             };
-        }
+        };
+
+            // return {
+            //     ...state,
+            //     tasks: state.searchTerm ? state.tasks : updatedTasks,
+            //     filteredTasks: updatedTasks,
+            // };
+
 
         default:
             return state;

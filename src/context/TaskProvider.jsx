@@ -27,13 +27,19 @@ export const TaskProvider = ( { children } ) =>
         dispatch( { type: 'ADD_TASK', payload: { category, task: newTask } } );
     };
 
-    const editTask = ( category, taskId, updatedTask ) =>
+    const editTask = ( taskId, updatedTask ) =>
     {
+        const { category, ...taskDetails } = updatedTask;
         dispatch( {
             type: 'EDIT_TASK',
-            payload: { category, taskId, updatedTask },
+            payload: {
+                category,
+                taskId,
+                updatedTask: { ...taskDetails, newCategory: category }
+            },
         } );
     };
+
 
     const deleteTask = ( category, taskId ) =>
     {
