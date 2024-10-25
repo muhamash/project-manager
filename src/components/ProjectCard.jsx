@@ -5,8 +5,6 @@ import TaskHeader from "./TaskHeader";
 
 export default function ProjectCard ( { bgPropsData } )
 {
-    // const [ sortDirection, setSortDirection ] = useState( 'asc' );
-    // const { sortTasksByDate } = useTask();
     
     const taskCategoryKey = Object.keys( bgPropsData ).find( ( key ) => key !== "id" );
     const tasks = bgPropsData[ taskCategoryKey ] || [];
@@ -22,13 +20,6 @@ export default function ProjectCard ( { bgPropsData } )
             default: return "bg-white";
         }
     };
-
-    // const handleSort = () =>
-    // {
-    //     const newDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-    //     setSortDirection( newDirection );
-    //     sortTasksByDate( taskCategoryKey, newDirection );
-    // };
 
     return (
         <div className={ `rounded-lg ${bgFunction( bgPropsData.id )} p-4` }>

@@ -3,20 +3,34 @@ import { createContext, useReducer } from 'react';
 import taskData from '../db/database.js';
 import { taskReducer } from '../reducer/taskReducer.js';
 
-// Initial state
 const initialState = {
-  tasks: taskData,
-  searchTerm: '',
+    tasks: {
+        toDo: taskData["To-Do"],
+        onProgress: taskData["On Progress"],
+        done: taskData["Done"],
+        revise: taskData["Revise"],
+    },
+    filteredTasks: {
+        toDo: taskData["To-Do"],
+        onProgress: taskData["On Progress"],
+        done: taskData["Done"],
+        revise: taskData["Revise"],
+    },
+    searchTerm: {
+        toDo: "",
+        onProgress: "",
+        done: "",
+        revise: "",
+    },
 };
+
+// console.log(taskData)
 
 export const TaskContext = createContext();
 
 export const TaskProvider = ( { children } ) =>
 {
-    const [ state, dispatch ] = useReducer( taskReducer, {
-        ...initialState,
-        filteredTasks: initialState.tasks,
-    } );
+    const [ state, dispatch ] = useReducer( taskReducer, initialState );
 
     const tasksToDisplay = state.filteredTasks;
 
@@ -34,11 +48,10 @@ export const TaskProvider = ( { children } ) =>
             payload: {
                 category,
                 taskId,
-                updatedTask: { ...taskDetails, newCategory: category }
+                updatedTask: { ...taskDetails, newCategory: category },
             },
         } );
     };
-
 
     const deleteTask = ( category, taskId ) =>
     {

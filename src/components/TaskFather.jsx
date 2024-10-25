@@ -16,16 +16,10 @@ export default function TaskFather ()
             <div className="mx-auto max-w-7xl p-6">
                 <ProjectifyHeader />
                 <div className="-mx-2 mb-6 flex flex-wrap">
-                    {
-                        tasks?.map( (t,index) => (
-                            <Projectify bgPropsData={t} key={ index } />
-                        ))
-                    }
-                    {
-                        tasks?.length === 0 && (
-                            <p className="text-rose-600 text-2xl font-semibold">Task List is empty!</p>
-                        )
-                    }
+                    <Projectify bgPropsData={ "To-Do" } tasks={ tasks.toDo } />
+                    <Projectify bgPropsData={ "On Progress" } tasks={ tasks.onProgress } />
+                    <Projectify bgPropsData={"Done"} tasks={tasks.done} />
+                    <Projectify bgPropsData={ "Revise" } tasks={ tasks.revise } />
                 </div>
             </div>
         </main>
