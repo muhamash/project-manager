@@ -14,10 +14,15 @@ export default function TaskHeader({ title, items }) {
   };
 
 
+  const catTitle = title === 'toDo' ? 'To-Do' :
+    title === 'onProgress' ? 'On Progress' :
+      title === 'done' ? 'Done' :
+        title === 'revise' ? 'Revise' : '';
+
   return (
     <div className="mb-2 flex items-center justify-between">
       <h3 className="text-lg font-semibold">
-        { title } <span>({ items })</span>
+        { catTitle } <span>({ items })</span>
       </h3>
       {/* sort icon */ }
       <svg
