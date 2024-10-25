@@ -10,7 +10,7 @@ export default function ProjectifyHeader() {
 
     return (
         <>
-            <div className="mb-6 flex items-center justify-between">
+            <div className="mt-[70px] mb-6 flex items-center justify-between">
                 <h2 className="text-2xl font-bold">Projectify</h2>
                 <div className="flex space-x-2">
                     <button
