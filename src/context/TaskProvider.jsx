@@ -52,9 +52,7 @@ export const TaskProvider = ({ children }) => {
             Object.entries( state.tasks ).map( ( [ category, tasks ] ) => [
                 category,
                 tasks.filter( task =>
-                    Object.values( task ).some( value =>
-                        String( value ).toLowerCase().includes( state.searchTerm.toLowerCase() )
-                    )
+                    task.title.toLowerCase().includes( state.searchTerm.toLowerCase() )
                 ),
             ] )
         )
