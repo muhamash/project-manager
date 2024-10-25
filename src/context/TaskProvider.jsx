@@ -17,7 +17,6 @@ export const TaskProvider = ( { children } ) =>
         ...initialState,
         filteredTasks: initialState.tasks,
     } );
-    // const [ currentTask, setCurrentTask ] = useState( null );
 
     const tasksToDisplay = state.filteredTasks;
 
@@ -65,8 +64,6 @@ export const TaskProvider = ( { children } ) =>
                 deleteTask,
                 sortTasksByDate,
                 filterTasks,
-                // currentTask,
-                // setCurrentTask,
             } }
         >
             { children }

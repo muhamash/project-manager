@@ -8,7 +8,7 @@ import TopBar from "./TopBar";
 export default function TaskFather ()
 {
     const { tasks } = useTask();
-    // console.log( tasks );
+    console.log( tasks );
 
     return (
         <main className="flex-1  overflow-y-auto w-full overflow-x-hidden">

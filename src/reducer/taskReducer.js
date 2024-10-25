@@ -31,53 +31,72 @@ export const taskReducer = ( state, action ) =>
         case 'EDIT_TASK': {
             const { category, taskId, updatedTask } = action.payload;
             const { newCategory } = updatedTask;
+            console.log(newCategory, category, updatedTask)
 
+            // When category is changed
             if ( newCategory && newCategory !== category )
             {
-                const updatedOldCategory = state.tasks
-                    .find( ( t ) => t[ category ] )[ category ]
-                    .filter( ( task ) => task.id !== taskId );
+                // Remove task from the old category
+                const updatedOldCategoryTasks = state.tasks
+                    .find( t => t[ category ] )[ category ]
+                    .filter( task => task.id != taskId );
 
-                const updatedNewCategory = [
-                    ...state.tasks.find( ( t ) => t[ newCategory ] )[ newCategory ],
+                // Add task to the new category
+                const updatedNewCategoryTasks = [
+                    ...state.tasks.find( t => t[ newCategory ] )[ newCategory ],
                     { ...updatedTask, id: Date.now().toString() }
                 ];
 
                 return {
                     ...state,
-                    tasks: state.tasks.map( ( t ) =>
-                        t[ category ]
-                            ? { ...t, [ category ]: updatedOldCategory }
-                            : t[ newCategory ]
-                                ? { ...t, [ newCategory ]: updatedNewCategory }
-                                : t
-                    ),
-                    filteredTasks: state.filteredTasks.map( ( t ) =>
-                        t[ category ]
-                            ? { ...t, [ category ]: updatedOldCategory }
-                            : t[ newCategory ]
-                                ? { ...t, [ newCategory ]: updatedNewCategory }
-                                : t
-                    ),
+                    tasks: state.tasks.map( t =>
+                    {
+                        if ( t[ category ] )
+                        {
+                            return { ...t, [ category ]: updatedOldCategoryTasks };  // Remove from old category
+                        } else if ( t[ newCategory ] )
+                        {
+                            return { ...t, [ newCategory ]: updatedNewCategoryTasks };  // Add to new category
+                        }
+                        return t;
+                    } ),
+                    filteredTasks: state.filteredTasks.map( t =>
+                    {
+                        if ( t[ category ] )
+                        {
+                            return { ...t, [ category ]: updatedOldCategoryTasks };  // Remove from old category
+                        } else if ( t[ newCategory ] )
+                        {
+                            return { ...t, [ newCategory ]: updatedNewCategoryTasks };  // Add to new category
+                        }
+                        return t;
+                    } )
                 };
             } else
             {
-
-                const updatedTasks = state.tasks.map( ( t ) =>
+                // If the category remains the same, update the task within that category
+                const updatedCategoryTasks = state.tasks.map( t =>
                 {
                     if ( t[ category ] )
                     {
-                        const updatedCategoryTasks = t[ category ].map( ( task ) =>
-                            task.id === taskId ? { ...task, ...updatedTask } : task
+                        const tasksInCategory = t[ category ].map( task =>
+                            task.id === taskId ? { ...task, ...updatedTask } : task  // Update the task
                         );
-                        return { ...t, [ category ]: updatedCategoryTasks };
+                        return { ...t, [ category ]: tasksInCategory };  // Update category with edited task
                     }
                     return t;
                 } );
 
-                return { ...state, tasks: updatedTasks, filteredTasks: updatedTasks };
+                console.log(updatedCategoryTasks)
+                return {
+                    ...state,
+                    tasks: updatedCategoryTasks,  // Update main tasks
+                    filteredTasks: updatedCategoryTasks  // Update filtered tasks (UI sync)
+                };
             }
         };
+
+
 
         case 'SORT_BY_DATE': {
             const { category, direction } = action.payload;

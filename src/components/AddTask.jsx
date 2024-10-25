@@ -32,6 +32,7 @@ export default function AddTask({ onClose, task, categoryKey }) {
         e.preventDefault();
         const newTask = { ...formData };
 
+        console.log(newTask)
         task ? editTask( task.id, newTask ) : addTask( formData.category, newTask );
 
         toast( `${task ? `Task updated!!` : `New task added!!`}`, {
