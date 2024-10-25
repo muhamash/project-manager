@@ -8,6 +8,8 @@ export default function TaskCard ( { task, categoryKey } )
 {
     const [ isModalOpen, setIsModalOpen ] = React.useState( false );
 
+    console.log("categoryKey in TaskCard:", categoryKey);
+
     const colorFunction = ( id ) =>
     {
         switch ( id )
@@ -66,7 +68,7 @@ export default function TaskCard ( { task, categoryKey } )
                 </p>
             </div>
             { isModalOpen && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm px-5">
-                <AddTask categoryKey={categoryKey} onClose={ handleCloseModal } task={ task } />
+                <AddTask categoryKey={categoryKey} onClose={handleCloseModal} task={task} />
             </div> }
         </>
     );

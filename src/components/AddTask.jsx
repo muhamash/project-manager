@@ -18,6 +18,8 @@ export default function AddTask({ onClose, task, categoryKey }) {
     } );
     const { addTask, editTask } = useTask();
 
+    console.log( "categoryKey in TaskCard:", categoryKey );
+    
     const handleChange = ( e ) =>
     {
         const { name, value } = e.target;
@@ -32,8 +34,13 @@ export default function AddTask({ onClose, task, categoryKey }) {
         e.preventDefault();
         const newTask = { ...formData };
 
-        console.log(newTask)
-        task ? editTask( task.id, newTask ) : addTask( formData.category, newTask );
+        if ( task )
+        {
+            editTask(categoryKey || task.category, task.id, newTask);
+        } else
+        {
+            addTask( formData.category || categoryKey, newTask );
+        }
 
         toast( `${task ? `Task updated!!` : `New task added!!`}`, {
             position: "top-right",
@@ -49,8 +56,6 @@ export default function AddTask({ onClose, task, categoryKey }) {
 
         onClose();
     };
-
-
 
     return (
         <div className="w-[500px] min-w-[310px] rounded-lg bg-gray-800 shadow-xl backdrop-blur-md">
@@ -124,10 +129,10 @@ export default function AddTask({ onClose, task, categoryKey }) {
                             className="w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500"
                         >
                             <option value="">Select a category</option>
-                            <option value="To-Do">To-Do</option>
-                            <option value="On Progress">On Progress</option>
-                            <option value="Done">Done</option>
-                            <option value="Revise">Revise</option>
+                            <option value="toDo">To-Do</option>
+                            <option value="onProgress">On Progress</option>
+                            <option value="done">Done</option>
+                            <option value="revise">Revise</option>
                         </select>
                     </div>
 

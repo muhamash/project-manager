@@ -1,6 +1,6 @@
 const taskData =
 {
-    "To-Do": [
+    "toDo": [
         {
             id: 1,
             "title": "Content Writer",
@@ -20,7 +20,7 @@ const taskData =
             "date": "2024-10-19"
         }
     ],
-    "On Progress": [
+    "onProgress": [
         {
             id: 1,
             "title": "API Integration",
@@ -39,20 +39,8 @@ const taskData =
             "description": "Incorporate feedback from the latest client meeting",
             "date": "2014-08-12"
         },
-        {
-            id: 4,
-            "title": "SEO Improvements",
-            "description": "Implement SEO best practices for the blog section",
-            "date": "2024-07-22"
-        },
-        {
-            id: 5,
-            "title": "Code Review",
-            "description": "Review the latest feature branch for bugs",
-            "date": "2024-10-19"
-        }
     ],
-    "Done": [
+    "done": [
         {
             id: 1,
             "title": "Bug Fixing",
@@ -71,14 +59,8 @@ const taskData =
             "description": "Migrated database to a new server",
             "date": "2024-10-22"
         },
-        {
-            id: 4,
-            "title": "Test Cases",
-            "description": "Wrote test cases for the new API endpoints",
-            "date": "1998-10-23"
-        }
     ],
-    "Revise": [
+    "revise": [
         {
             id: 1,
             "title": "Homepage Redesign",

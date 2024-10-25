@@ -5,16 +5,16 @@ import { taskReducer } from '../reducer/taskReducer.js';
 
 const initialState = {
     tasks: {
-        toDo: taskData["To-Do"],
-        onProgress: taskData["On Progress"],
-        done: taskData["Done"],
-        revise: taskData["Revise"],
+        toDo: taskData[ "toDo" ],
+        onProgress: taskData[ "onProgress" ],
+        done: taskData[ "done" ],
+        revise: taskData[ "revise" ],
     },
     filteredTasks: {
-        toDo: taskData["To-Do"],
-        onProgress: taskData["On Progress"],
-        done: taskData["Done"],
-        revise: taskData["Revise"],
+        toDo: taskData[ "toDo" ],
+        onProgress: taskData[ "onProgress" ],
+        done: taskData[ "done" ],
+        revise: taskData[ "revise" ],
     },
     searchTerm: {
         toDo: "",
@@ -40,18 +40,19 @@ export const TaskProvider = ( { children } ) =>
         dispatch( { type: 'ADD_TASK', payload: { category, task: newTask } } );
     };
 
-    const editTask = ( taskId, updatedTask ) =>
+    const editTask = ( currentCategory, taskId, updatedTask ) =>
     {
-        const { category, ...taskDetails } = updatedTask;
+        const { category: newCategory, ...taskDetails } = updatedTask;
         dispatch( {
             type: 'EDIT_TASK',
             payload: {
-                category,
+                currentCategory,
                 taskId,
-                updatedTask: { ...taskDetails, newCategory: category },
+                updatedTask: { ...taskDetails, newCategory: newCategory || currentCategory },
             },
         } );
     };
+
 
     const deleteTask = ( category, taskId ) =>
     {

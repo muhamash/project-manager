@@ -1,10 +1,8 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState } from 'react';
 import useTask from '../context/useTask';
 
 export default function TaskHeader({ title, items }) {
-    // const { tasks } = useTask(); 
-  // console.log(tasks[title], title)
   const [ sortDirection, setSortDirection ] = useState( 'asc' );
   const { sortTasksByDate } = useTask();
 
@@ -14,6 +12,7 @@ export default function TaskHeader({ title, items }) {
     setSortDirection( newDirection );
     sortTasksByDate( title, newDirection );
   };
+
 
   return (
     <div className="mb-2 flex items-center justify-between">

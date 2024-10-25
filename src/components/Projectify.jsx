@@ -10,15 +10,15 @@ export default function Projectify ( { bgPropsData, tasks } )
     {
         switch ( id )
         {
-            case "To-Do": return "bg-indigo-600";
-            case "On Progress": return "bg-yellow-600";
-            case "Done": return "bg-teal-600";
-            case "Revise": return "bg-rose-600";
+            case "toDo": return "bg-indigo-600";
+            case "onProgress": return "bg-yellow-600";
+            case "done": return "bg-teal-600";
+            case "revise": return "bg-rose-600";
             default: return "bg-white";
         }
     };
 
-    console.log( bgPropsData, tasks );
+    // console.log( bgPropsData, tasks );
 
     return (
         <div className="mb-4 w-full px-2 sm:w-1/2 md:w-1/4">
