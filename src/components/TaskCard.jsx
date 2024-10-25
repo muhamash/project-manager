@@ -8,7 +8,7 @@ export default function TaskCard ( { task, categoryKey } )
 {
     const [ isModalOpen, setIsModalOpen ] = React.useState( false );
 
-    console.log("categoryKey in TaskCard:", categoryKey);
+    // console.log("categoryKey in TaskCard:", categoryKey);
 
     const colorFunction = ( id ) =>
     {

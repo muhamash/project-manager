@@ -30,7 +30,7 @@ export default function Projectify ( { bgPropsData, tasks } )
                         <TaskCard categoryKey={ bgPropsData } task={ task } key={ task.id } />
                     ) )
                 ) : (
-                    <p className="text-black">Empty Task List!!!!!</p>
+                    <p className="text-white">Task list is empty!</p>
                 ) }
             </div>
         </div>

@@ -17,8 +17,8 @@ export default function AddTask({ onClose, task, categoryKey }) {
         category: '',
     } );
     const { addTask, editTask } = useTask();
-
-    console.log( "categoryKey in TaskCard:", categoryKey );
+    
+    // console.log( "categoryKey in TaskCard:", categoryKey );
     
     const handleChange = ( e ) =>
     {
