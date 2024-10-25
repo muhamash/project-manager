@@ -1,4 +1,3 @@
-// Update reducer to remove `filteredTasks`
 export const taskReducer = ( state, action ) =>
 {
     switch ( action.type )
